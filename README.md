@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Criando projeto
+### Criando projeto
 ```bash
 npx create-next-app nomeProjeto
 ```
@@ -19,6 +19,7 @@ pnpm dev
 https://www.udemy.com/course/nextjs-e-react/learn/lecture/27421096#overview
 ```
 
+# Importante
 * Treinamento Gera Numero Mega
 ```bash
 https://www.udemy.com/course/nextjs-e-react/learn/lecture/27418854#overview
