@@ -10,9 +10,22 @@
 #### Page 3
 <img src="./screens/page3.png" alt="não carregou">
 
-* Link do treinamento.:
-```bash
-https://www.udemy.com/course/nextjs-e-react/learn/lecture/27421096#overview
+#### Rodas para testes
+* 1. Questões
+```
+http://localhost:3000/api/questoes/307
+```
+
+* 2. 
+```
+http://localhost:3000/api/questionario
+```
+
+
+
+* Link do treinamento. continue:
+```
+https://www.udemy.com/course/nextjs-e-react/learn/lecture/27421122#overview
 ```
 
 # Importante

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Agenda Integration</title>
+</head>
+<body>
+  <h1>Agendar Evento no Google Agenda</h1>
+  <button id="login">Login com Google</button>
+  <button id="add-event" disabled>Adicionar Evento</button>
+  
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    const CLIENT_ID = "SEU_CLIENT_ID_AQUI"; // Substitua pelo seu Client ID
+    const API_KEY = "SUA_API_KEY_AQUI"; // Substitua pela sua API Key
+    const DISCOVERY_DOCS = [
+      "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
+    ];
+    const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+
+    const loginButton = document.getElementById("login");
+    const addEventButton = document.getElementById("add-event");
+
+    let gapiInited = false;
+    let isSignedIn = false;
+
+    function gapiLoaded() {
+      gapi.load("client:auth2", initializeGapiClient);
+    }
+
+    async function initializeGapiClient() {
+      await gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES,
+      });
+
+      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+      updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+    }
+
+    function updateSigninStatus(signedIn) {
+      isSignedIn = signedIn;
+      addEventButton.disabled = !signedIn;
+      if (signedIn) {
+        console.log("Usuário logado.");
+      } else {
+        console.log("Usuário deslogado.");
+      }
+    }
+    loginButton.addEventListener("click", () => {
+      if (isSignedIn) {
+        gapi.auth2.getAuthInstance().signOut();
+      } else {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+    });
+    addEventButton.addEventListener("click", async () => {
+      const event = {
+        summary: "Teste de Evento",
+        location: "Online",
+        description: "Este é um evento de teste.",
+        start: {
+          dateTime: new Date().toISOString(),
+          timeZone: "America/Sao_Paulo",
+        },
+        end: {
+          dateTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
+          timeZone: "America/Sao_Paulo",
+        },
+      };
+      try {
+        const response = await gapi.client.calendar.events.insert({
+          calendarId: "primary",
+          resource: event,
+        });
+        alert(`Evento criado: ${response.result.htmlLink}`);
+      } catch (error) {
+        console.error("Erro ao criar o evento", error);
+        alert("Erro ao criar o evento.");
+      }
+    });
+    gapiLoaded();
+  </script>
+</body>
+</html>
