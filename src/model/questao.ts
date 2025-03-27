@@ -27,6 +27,14 @@ export default class QuestaoModel {
         return false
     }
 
+    responderCom(indice: number): QuestaoModel{
+        const acertou = this.#respostas[indice]?.certa
+        const respostas = this.#respostas.map((resposta,i) => {
+            const respostaSelecionada = indice === i
+            return respostaSelecionada ? resposta.revelar() : resposta
+        })
+    }
+
     embaralharRespostas(): QuestaoModel{
         let respostasEmbaralhadas = embaralhar(this.#respostas, )
         return new QuestaoModel(
@@ -35,6 +43,10 @@ export default class QuestaoModel {
             respostasEmbaralhadas, 
             this.#acertou
         )
+    }
+
+    revelar() {
+        return new RespostaModel(this.#valor, this.#certa, true)
     }
 
     paraObjeto() {
